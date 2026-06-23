@@ -1,4 +1,4 @@
-import { getBlogPosts } from "@/lib/blog"
+import { getBlogPosts } from "@lib/blog"
 import Link from "next/link"
 
 export const metadata = {
