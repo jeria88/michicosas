@@ -1,0 +1,72 @@
+{
+  "name": "Social Media Autopost (Tráfico Orgánico)",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hoursInterval": 24
+            }
+          ]
+        }
+      },
+      "id": "1",
+      "name": "Schedule (Daily)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [ 200, 300 ]
+    },
+    {
+      "parameters": {
+        "requestMethod": "GET",
+        "url": "http://medusa-backend:9000/store/products?tags=Viral",
+        "options": {}
+      },
+      "id": "2",
+      "name": "Fetch Viral Products",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [ 400, 300 ]
+    },
+    {
+      "parameters": {
+        "text": "=¡Mira este increíble producto para tu michi! 🐾\n\n{{$json.title}}\n\nEncuéntralo aquí: https://michicosas.com/products/{{$json.handle}}\n\n#Gatos #Michis #Michicosas",
+        "additionalFields": {}
+      },
+      "id": "3",
+      "name": "Post to Twitter / X",
+      "type": "n8n-nodes-base.twitter",
+      "typeVersion": 1,
+      "position": [ 650, 200 ]
+    },
+    {
+      "parameters": {
+        "board": "Michicosas Virales",
+        "title": "={{$json.title}}",
+        "note": "={{$json.description}}",
+        "link": "=https://michicosas.com/products/{{$json.handle}}"
+      },
+      "id": "4",
+      "name": "Pin to Pinterest",
+      "type": "n8n-nodes-base.pinterest",
+      "typeVersion": 1,
+      "position": [ 650, 400 ]
+    }
+  ],
+  "connections": {
+    "Schedule (Daily)": {
+      "main": [ [ { "node": "Fetch Viral Products", "type": "main", "index": 0 } ] ]
+    },
+    "Fetch Viral Products": {
+      "main": [
+        [ 
+          { "node": "Post to Twitter / X", "type": "main", "index": 0 },
+          { "node": "Pin to Pinterest", "type": "main", "index": 0 }
+        ]
+      ]
+    }
+  },
+  "settings": {}
+}

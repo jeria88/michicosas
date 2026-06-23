@@ -1,0 +1,91 @@
+version: '3.8'
+
+volumes:
+  postgres_data:
+  n8n_data:
+  redis_data:
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: michicosas-postgres
+    restart: always
+    environment:
+      - POSTGRES_USER=michicosas
+      - POSTGRES_PASSWORD=michicosas_secret
+      - POSTGRES_DB=michicosas_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -h localhost -U michicosas -d michicosas_db']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    container_name: michicosas-redis
+    restart: always
+    volumes:
+      - redis_data:/data
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  n8n:
+    image: docker.n8n.io/n8nio/n8n
+    container_name: michicosas-n8n-main
+    restart: always
+    environment:
+      - DB_TYPE=postgresdb
+      - DB_POSTGRESDB_HOST=postgres
+      - DB_POSTGRESDB_PORT=5432
+      - DB_POSTGRESDB_DATABASE=michicosas_db
+      - DB_POSTGRESDB_USER=michicosas
+      - DB_POSTGRESDB_PASSWORD=michicosas_secret
+      - EXECUTIONS_MODE=queue
+      - QUEUE_BULL_REDIS_HOST=redis
+      - QUEUE_BULL_REDIS_PORT=6379
+      - N8N_HOST=n8n.michicosas.local
+      - N8N_PORT=5678
+      - N8N_PROTOCOL=http
+      - NODE_ENV=production
+      - WEBHOOK_URL=http://n8n.michicosas.local:5678/
+      - GENERIC_TIMEZONE=America/Bogota
+    ports:
+      - "5678:5678"
+    volumes:
+      - n8n_data:/home/node/.n8n
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  n8n-worker:
+    image: docker.n8n.io/n8nio/n8n
+    container_name: michicosas-n8n-worker
+    restart: always
+    command: worker
+    environment:
+      - DB_TYPE=postgresdb
+      - DB_POSTGRESDB_HOST=postgres
+      - DB_POSTGRESDB_PORT=5432
+      - DB_POSTGRESDB_DATABASE=michicosas_db
+      - DB_POSTGRESDB_USER=michicosas
+      - DB_POSTGRESDB_PASSWORD=michicosas_secret
+      - EXECUTIONS_MODE=queue
+      - QUEUE_BULL_REDIS_HOST=redis
+      - QUEUE_BULL_REDIS_PORT=6379
+      - NODE_ENV=production
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy

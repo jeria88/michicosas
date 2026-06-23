@@ -1,0 +1,77 @@
+{
+  "name": "CJ Dropshipping Sync",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "cj-inventory-update",
+        "options": {}
+      },
+      "id": "1",
+      "name": "Webhook CJ Dropshipping",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [ 250, 300 ],
+      "webhookId": "cj-dropshipping-unique-webhook"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{$json.body.status}}",
+              "value2": "OutOfStock"
+            }
+          ]
+        }
+      },
+      "id": "2",
+      "name": "Check Inventory Level",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [ 450, 300 ]
+    },
+    {
+      "parameters": {
+        "requestMethod": "POST",
+        "url": "http://medusa-backend:9000/store/inventory/update",
+        "jsonParameters": true,
+        "options": {},
+        "bodyParametersJson": "={\n  \"variant_sku\": \"{{$json.body.sku}}\",\n  \"inventory_quantity\": 0\n}"
+      },
+      "id": "3",
+      "name": "Update Medusa API (Out of Stock)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [ 700, 200 ]
+    },
+    {
+      "parameters": {
+        "requestMethod": "POST",
+        "url": "http://medusa-backend:9000/store/inventory/update",
+        "jsonParameters": true,
+        "options": {},
+        "bodyParametersJson": "={\n  \"variant_sku\": \"{{$json.body.sku}}\",\n  \"inventory_quantity\": \"{{$json.body.quantity}}\"\n}"
+      },
+      "id": "4",
+      "name": "Update Medusa API (In Stock)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [ 700, 400 ]
+    }
+  ],
+  "connections": {
+    "Webhook CJ Dropshipping": {
+      "main": [ [ { "node": "Check Inventory Level", "type": "main", "index": 0 } ] ]
+    },
+    "Check Inventory Level": {
+      "main": [
+        [ { "node": "Update Medusa API (Out of Stock)", "type": "main", "index": 0 } ],
+        [ { "node": "Update Medusa API (In Stock)", "type": "main", "index": 0 } ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  }
+}
