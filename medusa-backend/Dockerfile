@@ -2,16 +2,19 @@ FROM node:20
 
 WORKDIR /app
 
-# Install dependencies
 COPY package.json package-lock.json turbo.json ./
 COPY apps/backend/package.json ./apps/backend/
+
 RUN npm ci
 
-# Copy source
 COPY . .
 
-# Build project
+ENV NODE_OPTIONS="--max-old-space-size=3072"
+ENV TURBO_CONCURRENCY=1
 RUN npm run build
 
-# Start the server
+ENV NODE_ENV=production
+ENV PORT=9000
+EXPOSE 9000
+
 CMD ["npm", "run", "start"]
