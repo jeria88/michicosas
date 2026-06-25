@@ -19,4 +19,5 @@ ENV NODE_ENV=production
 ENV PORT=9000
 EXPOSE 9000
 
+WORKDIR /app/apps/backend
 CMD ["npm", "run", "start"]
