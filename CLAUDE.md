@@ -53,10 +53,11 @@ n8n-orchestrator/        # Workflows de n8n (importar manualmente)
 
 ### n8n workflows activos
 - WF1 (sync stock): ID `YyofTiJODqBIoGRv` — activo, cada hora
-- WF2 (precios 2.5x): ID `xFidxV2DNTKz9mBF` — REEMPLAZAR por WF2b
-- WF2b (pricing inteligente): ID `OZNdrKo4Jelitfbg` — creado, pendiente activar
+- WF2 (precios 2.5x): ID `xFidxV2DNTKz9mBF` — INACTIVO (reemplazado por WF2b)
+- WF2b (pricing inteligente): ID `OZNdrKo4Jelitfbg` — ACTIVO, cada 24h
 - WF3 (crear pedido CJ): ID `AY9zGdeAvqqN4o6h` — activo, cada 15min
 - WF4 (tracking): ID `8k7foFM1bysG3Rwe` — activo, cada 6h
+- Todos los workflows usan `https://api.michicosas.146.181.39.4.sslip.io` (corregido 2026-06-25)
 
 ### CJ Dropshipping
 - Rate limit: 1 req/s → siempre `Wait 1.2s` entre llamadas en n8n
@@ -66,13 +67,19 @@ n8n-orchestrator/        # Workflows de n8n (importar manualmente)
 
 ## Pendiente prioritario
 
-1. Añadir metadata `cj_product_id` a los 12 productos en Medusa (via admin API)
-   → Sin esto, WF1 y WF2b no pueden hacer la sincronización
-2. Activar WF2b y desactivar WF2 una vez que los productos tengan `cj_product_id`
-3. Acceso admin: resolver por qué `actor_id` llega vacío en el token de `/auth/admin/emailpass`
-   → Afecta a la API admin; actualmente la admin UI puede funcionar pero la API programática no
-4. Diseño visual del storefront (actualmente template default)
-5. Dominio `michicosas.store` (comprar cuando tienda esté lista)
+1. Diseño visual del storefront (actualmente template default de Medusa)
+2. Dominio `michicosas.store` (comprar cuando tienda esté lista)
+3. SEO longtail: artículos sobre "traductores de mascotas IA"
+4. Acceso admin programático: `actor_id` vacío en JWT de `/auth/admin/emailpass`
+   → No bloquea — usar el JWT de larga duración (válido hasta 2027-06-25) como workaround
+   → JWT: guardado en `project_michicosas.md` en memoria
+
+## Completado (2026-06-25)
+- ✅ Precios iniciales cargados en los 12 productos
+- ✅ Metadata `cj_product_id` en los 12 productos
+- ✅ WF2b activado, WF2 desactivado
+- ✅ URLs de todos los workflows corregidas a `api.michicosas.`
+- ✅ Automatización dropshipping 100% operativa
 
 ## Fórmula de pricing (negocio)
 
