@@ -5,8 +5,8 @@ Tienda e-commerce de dropshipping para el mercado LATAM, nicho mascotas. Stack o
 ## Estado actual (jun 2026): OPERATIVO
 
 - **Storefront**: `https://michicosas.146.181.39.4.sslip.io`
-- **Backend API**: `https://michicosas-backend.146.181.39.4.sslip.io`
-- **Admin panel**: `https://michicosas-backend.146.181.39.4.sslip.io/app`
+- **Backend API**: `https://api.michicosas.146.181.39.4.sslip.io`
+- **Admin panel**: `https://api.michicosas.146.181.39.4.sslip.io/app`
 - **n8n orquestador**: `https://n8n.146.181.39.4.sslip.io`
 - **Dominio final**: `michicosas.store` (pendiente de compra)
 
