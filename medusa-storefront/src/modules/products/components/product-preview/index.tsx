@@ -1,5 +1,3 @@
-import { Text } from "@medusajs/ui"
-import { listProducts } from "@lib/data/products"
 import { getProductPrice } from "@lib/util/get-product-price"
 import { HttpTypes } from "@medusajs/types"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
@@ -15,32 +13,27 @@ export default async function ProductPreview({
   isFeatured?: boolean
   region: HttpTypes.StoreRegion
 }) {
-  // const pricedProduct = await listProducts({
-  //   regionId: region.id,
-  //   queryParams: { id: [product.id!] },
-  // }).then(({ response }) => response.products[0])
-
-  // if (!pricedProduct) {
-  //   return null
-  // }
-
-  const { cheapestPrice } = getProductPrice({
-    product,
-  })
+  const { cheapestPrice } = getProductPrice({ product })
 
   return (
     <LocalizedClientLink href={`/products/${product.handle}`} className="group">
-      <div data-testid="product-wrapper">
+      <div
+        data-testid="product-wrapper"
+        className="bg-[#141414] border border-[#2A2A2A] group-hover:border-[#C9A96E] transition-colors duration-300 overflow-hidden"
+      >
         <Thumbnail
           thumbnail={product.thumbnail}
           images={product.images}
           size="full"
           isFeatured={isFeatured}
         />
-        <div className="flex txt-compact-medium mt-4 justify-between">
-          <Text className="text-ui-fg-subtle" data-testid="product-title">
+        <div className="px-4 pb-4 pt-3">
+          <p
+            className="font-cormorant text-base font-light text-[#F5F0E8] leading-snug mb-1"
+            data-testid="product-title"
+          >
             {product.title}
-          </Text>
+          </p>
           <div className="flex items-center gap-x-2">
             {cheapestPrice && <PreviewPrice price={cheapestPrice} />}
           </div>

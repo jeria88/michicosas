@@ -34,6 +34,16 @@ module.exports = {
           80: "#1F2937",
           90: "#111827",
         },
+        michi: {
+          black: "#0A0A0A",
+          surface: "#141414",
+          "surface-2": "#1A1A1A",
+          border: "#2A2A2A",
+          gold: "#C9A96E",
+          "gold-light": "#E8D5A3",
+          white: "#F5F0E8",
+          muted: "#8A8175",
+        },
       },
       borderRadius: {
         none: "0px",
@@ -69,6 +79,7 @@ module.exports = {
           "Ubuntu",
           "sans-serif",
         ],
+        cormorant: ["var(--font-cormorant)", "Georgia", "serif"],
       },
       keyframes: {
         ring: {

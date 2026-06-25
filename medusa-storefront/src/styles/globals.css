@@ -2,19 +2,65 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
+/* ── Michicosas dark theme tokens ── */
+:root {
+  --michi-black: #0A0A0A;
+  --michi-surface: #141414;
+  --michi-surface-2: #1A1A1A;
+  --michi-border: #2A2A2A;
+  --michi-gold: #C9A96E;
+  --michi-gold-light: #E8D5A3;
+  --michi-white: #F5F0E8;
+  --michi-muted: #8A8175;
+
+  /* Override Medusa UI CSS variables to dark theme */
+  --bg-base: 10 10 10;
+  --bg-subtle: 20 20 20;
+  --bg-component: 26 26 26;
+  --bg-field: 20 20 20;
+  --bg-interactive: 201 169 110;
+  --fg-base: 245 240 232;
+  --fg-subtle: 138 129 117;
+  --fg-muted: 138 129 117;
+  --fg-disabled: 60 60 60;
+  --fg-on-color: 10 10 10;
+  --fg-interactive: 201 169 110;
+  --border-base: 42 42 42;
+  --border-strong: 60 60 60;
+  --border-interactive: 201 169 110;
+}
+
+body {
+  background-color: #0A0A0A;
+  color: #F5F0E8;
+}
+
+/* Scrollbar oscuro */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: #0A0A0A;
+}
+::-webkit-scrollbar-thumb {
+  background: #2A2A2A;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #C9A96E;
+}
+
 @layer utilities {
-  /* Chrome, Safari and Opera */
   .no-scrollbar::-webkit-scrollbar {
     display: none;
   }
-
   .no-scrollbar::-webkit-scrollbar-track {
     background-color: transparent;
   }
-
   .no-scrollbar {
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 
   input:focus ~ label,
@@ -35,9 +81,9 @@
   select:-webkit-autofill,
   select:-webkit-autofill:hover,
   select:-webkit-autofill:focus {
-    border: 1px solid #212121;
-    -webkit-text-fill-color: #212121;
-    -webkit-box-shadow: 0 0 0px 1000px #fff inset;
+    border: 1px solid #2A2A2A;
+    -webkit-text-fill-color: #F5F0E8;
+    -webkit-box-shadow: 0 0 0px 1000px #141414 inset;
     transition: background-color 5000s ease-in-out 0s;
   }
 
@@ -55,7 +101,7 @@
   }
 
   .contrast-btn {
-    @apply px-4 py-2 border border-black rounded-full hover:bg-black hover:text-white transition-colors duration-200 ease-in;
+    @apply px-6 py-2 border border-[#C9A96E] text-[#C9A96E] rounded-none hover:bg-[#C9A96E] hover:text-[#0A0A0A] transition-all duration-300 ease-in tracking-[0.15em] text-xs uppercase;
   }
 
   .text-xsmall-regular {
