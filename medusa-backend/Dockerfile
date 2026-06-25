@@ -11,7 +11,9 @@ COPY . .
 
 ENV NODE_OPTIONS="--max-old-space-size=3072"
 ENV TURBO_CONCURRENCY=1
-RUN npm run build
+RUN npm run build && \
+    mkdir -p apps/backend/public/admin && \
+    cp -r apps/backend/.medusa/client/* apps/backend/public/admin/
 
 ENV NODE_ENV=production
 ENV PORT=9000
