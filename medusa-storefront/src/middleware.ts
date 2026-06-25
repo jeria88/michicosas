@@ -1,9 +1,9 @@
 import { HttpTypes } from "@medusajs/types"
 import { NextRequest, NextResponse } from "next/server"
 
-const BACKEND_URL = process.env.MEDUSA_BACKEND_URL
-const PUBLISHABLE_API_KEY = process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY
-const DEFAULT_REGION = process.env.NEXT_PUBLIC_DEFAULT_REGION || "us"
+const BACKEND_URL = process.env.MEDUSA_BACKEND_URL || "https://api.michicosas.146.181.39.4.sslip.io"
+const PUBLISHABLE_API_KEY = process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "pk_94f69a8dd44d520c6a0db9d248a86a3c395a81f5e6d589acc91eed6ed1eb6ce0"
+const DEFAULT_REGION = process.env.NEXT_PUBLIC_DEFAULT_REGION || "cl"
 
 const regionMapCache = {
   regionMap: new Map<string, HttpTypes.StoreRegion>(),
